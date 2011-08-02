@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./tests/bootstrap.php">
+  <php>
+    <server name="SYMFONY" value="vendor/symfony/src" />
+    <server name="TWIG" value="vendor/twig/lib" />
+  </php>
+  <testsuites>
+    <testsuite name="TOLocalizationBundle Test Suite">
+      <directory suffix="Test.php">./tests/</directory>
+    </testsuite>
+  </testsuites>
+  <filter>
+    <whitelist>
+      <directory>./</directory>
+      <exclude>
+        <directory>./tests/</directory>
+        <directory>./vendor/</directory>
+      </exclude>
+    </whitelist>
+  </filter>
+</phpunit>
