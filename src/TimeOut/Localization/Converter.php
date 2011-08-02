@@ -26,9 +26,9 @@ class Converter
      *
      * @param array $units An optional array of unit => conversionFactor
      */
-    public function __construct( array $units = array() )
+    public function __construct(array $units = array())
     {
-        $this->setUnits( $units );
+        $this->setUnits($units);
     }
 
     /**
@@ -42,18 +42,18 @@ class Converter
      * @throws InvalidArgumentException If $unit is blank
      * @throws InvalidArgumentException If $factor is non-numeric and not callable
      */
-    public function setUnit( $unit, $factor )
+    public function setUnit($unit, $factor)
     {
-        if ( !$unit )
+        if (!$unit)
         {
-            throw new \InvalidArgumentException( 'The unit name must not be blank' );
+            throw new \InvalidArgumentException('The unit name must not be blank');
         }
 
-        if ( !is_numeric( $factor ) && !is_callable( $factor ) )
+        if (!is_numeric($factor) && !is_callable($factor))
         {
-            throw new \InvalidArgumentException( 'The conversion factor must be numeric or callable' );
+            throw new \InvalidArgumentException('The conversion factor must be numeric or callable');
         }
-        $this->units[ $unit ] = $factor;
+        $this->units[$unit] = $factor;
     }
 
     /**
@@ -64,11 +64,11 @@ class Converter
      *
      * @return mixed Either a float or a callable
      */
-    public function getUnit( $unit )
+    public function getUnit($unit)
     {
-        if ( $this->hasUnit( $unit ) )
+        if ($this->hasUnit($unit))
         {
-            return $this->units[ $unit ];
+            return $this->units[$unit];
         }
         return null;
     }
@@ -91,18 +91,18 @@ class Converter
      * @throws InvalidArgumentException If $unit is blank
      * @throws InvalidArgumentException If $factor is non-numeric and not callable
      */
-    public function setUnits( array $units )
+    public function setUnits(array $units)
     {
         $this->units = array();
-        foreach ( $units as $unit => $factor )
+        foreach ($units as $unit => $factor)
         {
             try
             {
-                $this->setUnit( $unit, $factor );
+                $this->setUnit($unit, $factor);
             }
-            catch ( \InvalidArgumentException $e )
+            catch (\InvalidArgumentException $e)
             {
-                throw new \InvalidArgumentException( 'There was an error setting the unit "' . $unit . '" to "' . $factor . '"', $e->getCode(), $e );
+                throw new \InvalidArgumentException('There was an error setting the unit "' . $unit . '" to "' . $factor . '"', $e->getCode(), $e);
             }
         }
     }
@@ -114,9 +114,9 @@ class Converter
      *
      * @return bool
      */
-    public function hasUnit( $unit )
+    public function hasUnit($unit)
     {
-        return isset( $this->units[ $unit ] );
+        return isset($this->units[$unit]);
     }
 
     /**
@@ -131,19 +131,19 @@ class Converter
      *
      * @return float
      */
-    public function convertUnits( $value, $fromUnits, $toUnits )
+    public function convertUnits($value, $fromUnits, $toUnits)
     {
-        if ( !is_numeric( $value ) )
+        if (!is_numeric($value))
         {
-            throw new \InvalidArgumentException( 'Value is not numeric' );
+            throw new \InvalidArgumentException('Value is not numeric');
         }
 
-        if ( !$this->hasUnit( $fromUnits ) || !$this->hasUnit( $toUnits ) )
+        if (!$this->hasUnit($fromUnits) || !$this->hasUnit($toUnits))
         {
-            throw new \InvalidArgumentException( "Unknown convesion $fromUnits => $toUnits" );
+            throw new \InvalidArgumentException("Unknown convesion $fromUnits => $toUnits");
         }
 
-        return $this->convert( $value, $this->getUnit( $fromUnits ), $this->getUnit( $toUnits ) );
+        return $this->convert($value, $this->getUnit($fromUnits), $this->getUnit($toUnits));
     }
 
     /**
@@ -157,20 +157,20 @@ class Converter
      *
      * @return float
      */
-    public function convert( $value, $normalizationFactor, $conversionFactor )
+    public function convert($value, $normalizationFactor, $conversionFactor)
     {
-        if ( !is_callable( $conversionFactor ) && $conversionFactor == 0 )
+        if (!is_callable($conversionFactor) && $conversionFactor == 0)
         {
             return 0;
         }
         try
         {
-            $normalized = $this->normalize( $value, $normalizationFactor, true );
-            return $this->normalize( $normalized, $conversionFactor );
+            $normalized = $this->normalize($value, $normalizationFactor, true);
+            return $this->normalize($normalized, $conversionFactor);
         }
-        catch ( \InvalidArgumentException $e )
+        catch (\InvalidArgumentException $e)
         {
-            throw new \InvalidArgumentException( 'Normalization error', $e->getCode(), $e );
+            throw new \InvalidArgumentException('Normalization error', $e->getCode(), $e);
         }
     }
 
@@ -186,23 +186,23 @@ class Converter
      *
      * @return float
      */
-    public function normalize( $value, $normalizationFactor, $invert = false )
+    public function normalize($value, $normalizationFactor, $invert = false)
     {
-        if ( !is_numeric( $value ) )
+        if (!is_numeric($value))
         {
-            throw new \InvalidArgumentException( 'The value to normalize must be numeric' );
+            throw new \InvalidArgumentException('The value to normalize must be numeric');
         }
 
-        if ( is_callable( $normalizationFactor ) )
+        if (is_callable($normalizationFactor))
         {
-            return $normalizationFactor( $value, $invert );
+            return $normalizationFactor($value,$invert);
         }
-        elseif ( !is_numeric( $normalizationFactor ) || ( $normalizationFactor == 0 && $invert === true ) )
+        elseif (!is_numeric($normalizationFactor) || ($normalizationFactor == 0 && $invert === true) )
         {
-            throw new \InvalidArgumentException( 'The normalization factor must be a non-zero number or callable' );
+            throw new \InvalidArgumentException('The normalization factor must be a non-zero number or callable');
         }
 
-        if ( $invert )
+        if ($invert)
         {
             $normalizationFactor = 1 / $normalizationFactor;
         }
