@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter type="string" key="to.twig.localization.distance.class">TimeOut\Localization\Converter</parameter>
+        <parameter type="string" key="to.twig.localization.class">TimeOut\Twig\Extension\LocalizationExtension</parameter>
+        <parameter type="string" key="to.twig.localization.configKey">to.twig.localization.configuration</parameter>
+    </parameters>
+
+    <services>
+        <service id="to.twig.localization.distance" class="%to.twig.localization.distance.class%" />
+        <service id="to.twig.localization" class="%to.twig.localization.class%" public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="service_container" />
+            <argument type="collection">
+                <argument type="service" id="to.twig.localization.distance" key="distance" />
+            </argument>
+            <argument type="string">%to.twig.localization.configKey%</argument>
+            <argument type="service" id="translator" />
+        </service>
+    </services>
+</container>

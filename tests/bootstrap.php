@@ -10,6 +10,8 @@ $loader->registerPrefixes(array(
     'Twig_'            => $_SERVER['TWIG'],
 ));
 
+$loader->register();
+
 spl_autoload_register(function($class)
 {
     if (0 === strpos($class, 'TimeOut')) {

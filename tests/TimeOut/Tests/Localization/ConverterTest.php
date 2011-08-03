@@ -1,6 +1,6 @@
 <?php
 
-namespace TimeOut\Localization\Converter;
+namespace TimeOut\Tests\Localization;
 
 use TimeOut\Localization\Converter;
 

@@ -1,0 +1,6 @@
+# English settings
+distance:
+  to: mi
+  rounding: 2
+  fallback:
+    to: yd

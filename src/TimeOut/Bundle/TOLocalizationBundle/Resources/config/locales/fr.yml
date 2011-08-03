@@ -1,0 +1,5 @@
+# French settings
+distance:
+  to: km
+  fallback:
+    to: m
