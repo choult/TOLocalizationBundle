@@ -26,6 +26,12 @@ class TOLocalizationExtension extends Extension
             $container->get('to.twig.localization.'.$converter)->setUnits($config[$converter]['units']);
         }
 
+        $dateConfig = $base.'date.yml';
+        if ( file_exists( $dateConfig ) )
+        {
+            $config[ 'date' ] = Yaml::parse($base.'date.yml');
+        }
+
         $config['locale_path'] = $base.'locales/';
         $container->setParameter('to.twig.localization.configuration', $config);
     }

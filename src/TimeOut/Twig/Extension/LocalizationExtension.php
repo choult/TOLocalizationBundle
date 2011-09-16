@@ -222,7 +222,39 @@ class LocalizationExtension extends \Twig_Extension implements ContainerAwareInt
     public function getFilters() {
         return array(
             'distance' => new \Twig_Filter_Method($this, 'distance'),
+            'formatDate' => new \Twig_Filter_Method($this, 'formatDate'),
         );
+    }
+
+    /**
+     * Formats a date by th
+     * @param type $value
+     * @param array $arguments
+     * @param type $domain
+     * @param type $locale
+     * @return string
+     */
+    public function formatDate( $value, $format = null, array $arguments = array(), $domain = "messages", $locale = null )
+    {
+        if ( $format == null )
+        {
+            $config = $this->getConfiguration( 'date' );
+            $format = $config[ 'format' ];
+        }
+
+        $dt = new \DateTime( $value );
+
+        $str = $dt->format( $format );
+
+        $parts = explode( ' ', $str );
+        $ret = '';
+
+        foreach ( $parts as $part )
+        {
+            $ret .= ( ( $ret ) ? ' ' : '' ) . $this->getTranslator()->trans( $part, $arguments, $domain, $locale );
+        }
+
+        return $ret;
     }
 
     /**
