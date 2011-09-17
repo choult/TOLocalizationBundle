@@ -1,2 +1,3 @@
 # Set the date format here. Prefix any string to be translated with escaped prefixes
 format: \d\a\t\e\.D \d\a\t\e\.M j Y
+short_format: \d\a\t\e\.D \d\a\t\e\.M j

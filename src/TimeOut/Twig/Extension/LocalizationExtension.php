@@ -236,13 +236,18 @@ class LocalizationExtension extends \Twig_Extension implements ContainerAwareInt
      */
     public function formatDate( $value, $format = null, array $arguments = array(), $domain = "messages", $locale = null )
     {
+
+        $dt = new \DateTime( $value );
+
         if ( $format == null )
         {
             $config = $this->getConfiguration( 'date' );
             $format = $config[ 'format' ];
+            if ( isset( $config[ 'short_format' ] ) && (int)$dt->format( 'Y' ) == (int)date( 'Y' ) )
+            {
+                $format = $config[ 'short_format' ];
+            }
         }
-
-        $dt = new \DateTime( $value );
 
         $str = $dt->format( $format );
 
